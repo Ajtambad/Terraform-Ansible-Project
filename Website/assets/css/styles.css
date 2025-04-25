@@ -1,0 +1,49 @@
+body {
+  font-family: 'Work Sans', sans-serif;
+  --bs-primary: #1c3dca;
+  --bs-primary-rgb: 28,61,202;
+  --bs-info: #02aaff;
+  --bs-info-rgb: 2,170,255;
+  --bs-dark: #131416;
+  --bs-dark-rgb: 19,20,22;
+  --bs-body-color: var(--bs-body-color);
+  --bs-body-bg: var(--bs-dark);
+  --bs-body-font-weight: 300;
+}
+
+.container {
+  height: 100%;
+  max-width: 960px;
+  color: var(--bs-tertiary-bg);
+  padding: 1em;
+}
+
+.text-badge {
+}
+
+.banner {
+  padding: 2em 1em ;
+  background: var(--bs-primary);
+  text-align: center;
+  border-radius: 1em;
+}
+
+a {
+  color: #0d6efd ,var(--bs-link-opacity,1));
+  text-decoration: none;
+}
+
+a:hover {
+  --bs-link-color-rgb: var(--bs-link-hover-color-rgb);
+}
+
+a {
+  color: #0d6efd ,var(--bs-link-opacity,1));
+  /*text-decoration: underline;*/
+}
+
+a {
+  /*color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));*/
+  /*text-decoration: underline;*/
+}
+
