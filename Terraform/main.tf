@@ -50,12 +50,3 @@ resource "aws_autoscaling_group" "web-host-instance" {
         version = "$Latest"
     }
 }
-
-/*resource "aws_instance" "host-test" {
-  ami = "ami-00a929b66ed6e0de6"
-  instance_type = "t2.micro"
-
-    tags = {
-        Name = "WebsiteHostInstance"
-    }
-}*/

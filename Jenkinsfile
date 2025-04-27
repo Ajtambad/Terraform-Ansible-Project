@@ -50,7 +50,7 @@ pipeline {
                     dir('Ansible'){
                         script{
                             sleep time: 40
-                            sh 'ansible-playbook -i hosts playbook.yaml -u ${SSH_USER} --private-key ${AWS_KEY_PAIR}--ssh-extra-args="-o StrictHostKeyChecking=no"'
+                            sh 'ansible-playbook -i hosts playbook.yaml -u ${SSH_USER} --private-key ${AWS_KEY_PAIR} --ssh-extra-args="-o StrictHostKeyChecking=no"'
                         }
                     }        
                 }
