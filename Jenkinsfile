@@ -50,6 +50,16 @@ pipeline {
                     
                 }
             }
+        }
+        stage('Schedule Destroy') {
+            steps {
+                script {
+                    build job: 'terraform-destroy-pipeline',
+                    wait: false,
+                    quietPeriod: 900
+
+                }
+            }
         }            
     }
 }
