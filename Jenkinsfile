@@ -7,11 +7,12 @@ pipeline {
                     credentialsId: 'jenkins-ec2-instance_key',
                     keyFileVariable: 'SSH_KEY_FILE',
                     usernameVariable: 'SSH_USER'
-                )])
-                dir('Terraform'){
-                    sh 'terraform init'
-                    sh 'terraform plan'
-                    sh 'terraform apply -var="ssh_key_file=$(SSH_KEY_FILE)" -auto-approve'
+                )]) {
+                    dir('Terraform'){
+                        sh 'terraform init'
+                        sh 'terraform plan'
+                        sh 'terraform apply -var="ssh_key_file=$(SSH_KEY_FILE)" -auto-approve'
+                    }
                 }
             }
         }
