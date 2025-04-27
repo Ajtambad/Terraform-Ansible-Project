@@ -38,7 +38,7 @@ pipeline {
             steps{
                 dir('Ansible'){
                     script{
-                        sleep time: 45
+                        sleep time: 40
                         sh 'ansible-playbook -i hosts playbook.yaml -u ec2-user --private-key AWS-key-pair.pem --ssh-extra-args="-o StrictHostKeyChecking=no"'
                     }
                     
