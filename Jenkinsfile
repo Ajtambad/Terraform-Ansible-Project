@@ -42,12 +42,17 @@ pipeline {
         }
         stage('Run Ansible'){
             steps{
-                dir('Ansible'){
-                    script{
-                        sleep time: 40
-                        sh 'ansible-playbook -i hosts playbook.yaml -u ec2-user --private-key AWS-key-pair.pem --ssh-extra-args="-o StrictHostKeyChecking=no"'
-                    }
-                    
+                withCredentials([sshUserPrivateKey(
+                    credentialsId: 'aws_key_pair',
+                    keyFileVariable: 'AWS_KEY_PAIR',
+                    usernameVariable: 'SSH_USER'
+                )]) {
+                    dir('Ansible'){
+                        script{
+                            sleep time: 40
+                            sh 'ansible-playbook -i hosts playbook.yaml -u ${SSH_USER} --private-key ${AWS_KEY_PAIR}--ssh-extra-args="-o StrictHostKeyChecking=no"'
+                        }
+                    }        
                 }
             }
         }
