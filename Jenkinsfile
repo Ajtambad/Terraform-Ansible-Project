@@ -10,7 +10,7 @@ pipeline {
                 )]) {
                     dir('Terraform'){
                         sh 'terraform init'
-                        sh 'terraform plan'
+                        sh 'terraform plan -var="ssh_key_file=$(SSH_KEY_FILE)"'
                         sh 'terraform apply -var="ssh_key_file=$(SSH_KEY_FILE)" -auto-approve'
                     }
                 }
