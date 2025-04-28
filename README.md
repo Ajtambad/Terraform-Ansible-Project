@@ -4,7 +4,8 @@
 
 This project automates the complete lifecycle of an AWS EC2 instance — from provisioning, deployment, live website setup, to automatic teardown — using Jenkins, Terraform, Ansible, and GitHub Actions.
 It demonstrates best practices in infrastructure as code (IaC), continuous deployment (CD), credential management, and ephemeral environment handling.
-⚙️ Tools & Technologies
+
+## ⚙️ Tools & Technologies
 
 - Terraform – AWS EC2 provisioning
 
