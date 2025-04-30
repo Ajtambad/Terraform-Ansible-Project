@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - 'Ansible/**'
+      - 'Ansible_GA/**'
       - 'Terraform_GA/**'
       - 'Website/**'
 
