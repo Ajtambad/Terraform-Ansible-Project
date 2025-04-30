@@ -1,0 +1,37 @@
+name: Terraform-Ansible Pipeline
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Ansible/**'
+      - 'Terraform/**'
+      - 'Website/**'
+
+jobs:
+  build:
+    name: Run Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Terraform repository
+        uses: actions/checkout@v2
+        with:
+          sparse_checkout: |
+            Terraform
+
+      - name: Initialize Terraform
+        id: init
+        run: terraform init
+
+      - name: Terraform Fotmat
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        id: validate
+        run: terrafirm validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan 
+
