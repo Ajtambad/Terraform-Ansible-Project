@@ -25,7 +25,7 @@ variable "ssh_key_file"{
 # }
 
 resource "aws_launch_template" "web-server-template" {
-    name = "instantitate-web-host"
+    name = "create-web-host"
     image_id = "ami-00a929b66ed6e0de6"
     security_group_names = ["launch-wizard-1"]
     instance_type = "t2.micro"
