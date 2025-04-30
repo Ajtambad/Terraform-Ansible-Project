@@ -17,7 +17,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           sparse_checkout: |
-            Terraform
+            Terraform_GA
+
+      - name: Setup/Install Terraform
+        id: setup
+        uses: hashicorp/setup-terraform@v3
+          with:
+            terraform_versions: "1.2.0"
 
       - name: Initialize Terraform
         id: init
