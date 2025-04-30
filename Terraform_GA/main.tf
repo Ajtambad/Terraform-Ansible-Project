@@ -13,9 +13,9 @@ provider "aws" {
     region = "us-east-1"
 }
 
-variable "ssh_key_file"{
-    type = string
-}
+# variable "ssh_key_file"{
+#     type = string
+# }
 
 # locals {
 #     user_data_script = <<-EOF
