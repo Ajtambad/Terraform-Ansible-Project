@@ -31,24 +31,24 @@ jobs:
   build:
     name: Run Terraform
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Terraform_GA
     steps:
       - name: Check out Terraform repository
         uses: actions/checkout@v2
-        with:
-          sparse_checkout: |
-            Terraform_GA
 
       - name: Setup/Install Terraform
         id: setup
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_versions: "1.2.0"
+          terraform_version: "1.2.0"
 
       - name: Initialize Terraform
         id: init
         run: terraform init
 
-      - name: Terraform Fotmat
+      - name: Terraform Format
         id: fmt
         run: terraform fmt -check
 
