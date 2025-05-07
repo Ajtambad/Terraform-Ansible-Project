@@ -42,6 +42,7 @@ jobs:
               exit 1
             fi
               echo -e "[webserver]\n$IP_ADDR" > hosts
+              cat hosts
           retry_on: error
 
       - name: Save AWS private key
