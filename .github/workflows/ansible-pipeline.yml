@@ -22,24 +22,33 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ansible
-          
+
+      - name: Configure AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
       - name: Copy new EC2 instance IP to hosts
         uses: nick-fields/retry@v2
-        if:
         with:
           timeout_seconds: 15
           max_attempts: 3
           command: |
             touch hosts
             IP_ADDR=$(aws ec2 describe-instances --filters "Name=tag:Name, Values=web-host-instance" "Name=instance-state-name, Values=running" --query "Reservations[*].Instances[*].NetworkInterfaces[*].Association.PublicIp" --output text)
-            if [-z "$IP_ADDR" ]; then
+            if [ -z "$IP_ADDR" ]; then
               echo "IP not found, retrying..."
               exit 1
             fi
               echo -e '[webserver]\n$IP_ADDR' > hosts
           retry_on: error
 
+      - name: Save AWS private key
+        run: echo "${{ secrets.AWS_KEY_PAIR }}" > aws_key_pair.pem && chmod 600 aws_key_pair.pem
+
       - name: Run ansible
-        run: ansible-playbook -i hosts playbook.yaml -u ec2-user --private-key ${{ secrets.AWS_KEY_PAIR }} --ssh-extra-args="-o StrictHostKeyChecking=no
+        run: ansible-playbook -i hosts playbook.yaml -u ec2-user --private-key aws_key_pair.pem --ssh-extra-args="-o StrictHostKeyChecking=no"
 
           
