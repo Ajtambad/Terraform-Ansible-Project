@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working_directory: Ansible_GA
+        working-directory: Ansible_GA
     steps:
       - name: Checkout Ansible repo
         uses: actions/checkout@v2
