@@ -1,31 +1,13 @@
 name: Terraform-Ansible Pipeline
 on:
   workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-        type: choice
-        options:
-        - info
-        - warning
-        - debug
-      tags:
-        description: 'Test scenario tags'
-        required: false
-        type: boolean
-      environment:
-        description: 'Environment to run tests against'
-        type: development
-        required: true
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'Ansible_GA/**'
-  #     - 'Terraform_GA/**'
-  #     - 'Website/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'Ansible_GA/**'
+      - 'Terraform_GA/**'
+      - 'Website/**'
 
 jobs:
   build:
@@ -38,6 +20,13 @@ jobs:
       - name: Check out Terraform repository
         uses: actions/checkout@v2
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          
       - name: Setup/Install Terraform
         id: setup
         uses: hashicorp/setup-terraform@v3
