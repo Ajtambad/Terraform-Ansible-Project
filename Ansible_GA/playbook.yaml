@@ -1,0 +1,59 @@
+- name: Run command on EC2
+  hosts: webservers
+  vars:
+    github_repo_link: "https://github.com/Ajtambad/Terraform-Ansible-Project.git"
+  tasks:
+    - name: Download httpd
+      command: sudo yum install httpd -y
+
+    - name: Start httpd
+      command: sudo service httpd start
+
+    - name: Get httpd status
+      command: sudo service httpd status
+      register: httpd_serv_status
+
+    - name: Print httpd status
+      debug:
+        var: httpd_serv_status.stdout
+
+    - name: Install git
+      command: sudo yum install git -y
+
+    - name: Get git version
+      command: git --version
+      register: git_version
+
+    - name: Print git version
+      debug:
+        var: git_version.stdout
+
+    - name: Check if git repo already exists
+      stat:
+        path: /home/ec2-user/Terraform-Ansible-Project
+      register: git_repo_state
+
+    - name: Delete repo if it exists
+      shell: rm -rf Terraform-Ansible-Project
+      when: git_repo_state.stat.exists
+
+    - name: Get files from GitHub
+      shell: git clone '{{github_repo_link}}'
+
+    - name: Copy files into /var/www/html
+      shell: sudo cp /home/ec2-user/Terraform-Ansible-Project/Website/*.html /var/www/html/ && sudo cp -r ~/Terraform-Ansible-Project/Website/assets /var/www/html
+
+    - name: Extract the IP address
+      set_fact:
+        server_ip: "{{ lookup('file', 'hosts') | regex_search('\\d+\\.\\d+\\.\\d+\\.\\d+') }}"
+
+    - name: Check if site is live with curl command
+      shell: "curl -I http://{{ server_ip }}:80 2>/dev/null | head -n 1 | cut -d$' ' -f2"
+      register: http_status
+      retries: 3
+      delay: 15
+      until: http_status.stdout == '200'
+
+    - name: Print status of curl
+      debug:
+        var: http_status.stdout

@@ -1,4 +1,4 @@
-name: Terraform-Ansible Pipeline
+name: terraform-create-pipeline
 on:
   workflow_dispatch:
   push:
@@ -26,7 +26,7 @@ jobs:
           aws-access-key-id: ${{ secrets.ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-          
+
       - name: Setup/Install Terraform
         id: setup
         uses: hashicorp/setup-terraform@v3
@@ -45,3 +45,8 @@ jobs:
         id: plan
         run: terraform plan 
 
+      - name: Terraform apply
+        id: apply
+        run: terraform apply -auto-approve
+
+  

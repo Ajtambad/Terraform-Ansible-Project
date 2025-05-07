@@ -1,0 +1,42 @@
+name: ansible-pipeline
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Ansible_GA/**'
+
+jobs:
+  build:
+    name: Run Ansible
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working_directory: Ansible_GA
+    steps:
+      - name: Checkout Ansible repo
+        uses: actions/checkout@v2
+
+      - name: Copy new EC2 instance IP to hosts
+        uses: nick-fields/retry@v2
+        if:
+        with:
+          timeout_seconds: 15
+          max_attempts: 3
+          command: |
+            touch hosts
+            IP_ADDR=$(aws ec2 describe-instances --filters "Name=tag:Name, Values=web-host-instance" "Name=instance-state-name, Values=running" --query "Reservations[*].Instances[*].NetworkInterfaces[*].Association.PublicIp" --output text)
+            if [-z "$IP_ADDR" ]; then
+              echo "IP not found, retrying..."
+              exit 1
+            fi
+              echo -e '[webserver]\n$IP_ADDR' > hosts
+          retry_on: error
+
+      - name: Run ansible
+        with:
+          aws_key_pair: ${{ secrets.AWS_KEY_PAIR }}
+        run: ansible-playbook -i hosts playbook.yaml -u ec2-user --private-key ${AWS_KEY_PAIR} --ssh-extra-args="-o StrictHostKeyChecking=no
+
+          
