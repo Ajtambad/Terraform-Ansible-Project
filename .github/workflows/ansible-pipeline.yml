@@ -18,6 +18,11 @@ jobs:
       - name: Checkout Ansible repo
         uses: actions/checkout@v2
 
+      - name: Install Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+          
       - name: Copy new EC2 instance IP to hosts
         uses: nick-fields/retry@v2
         if:
@@ -35,8 +40,6 @@ jobs:
           retry_on: error
 
       - name: Run ansible
-        with:
-          aws_key_pair: ${{ secrets.AWS_KEY_PAIR }}
-        run: ansible-playbook -i hosts playbook.yaml -u ec2-user --private-key ${AWS_KEY_PAIR} --ssh-extra-args="-o StrictHostKeyChecking=no
+        run: ansible-playbook -i hosts playbook.yaml -u ec2-user --private-key ${{ secrets.AWS_KEY_PAIR }} --ssh-extra-args="-o StrictHostKeyChecking=no
 
           
