@@ -40,7 +40,7 @@ jobs:
             fi
               echo -e "[webserver]\n$IP_ADDR\n" > hosts
               sleep(5)
-            done
+          done
 
       - name: Save AWS private key
         run: echo "${{ secrets.AWS_KEY_PAIR }}" > aws_key_pair.pem && chmod 600 aws_key_pair.pem
