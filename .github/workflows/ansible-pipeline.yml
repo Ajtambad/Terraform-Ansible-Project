@@ -36,10 +36,10 @@ jobs:
             IP_ADDR=$(aws ec2 describe-instances --filters "Name=tag:Name, Values=web-host-instance" "Name=instance-state-name, Values=running" --query "Reservations[*].Instances[*].NetworkInterfaces[*].Association.PublicIp" --output text)
             if [ -z "$IP_ADDR" ]; then
               echo "IP not found, retrying..."
-              exit 1
-            fi
-              echo -e "[webserver]\n$IP_ADDR\n" > hosts
               sleep 15
+            fi
+              echo -e "[webservers]\n$IP_ADDR\n" > hosts
+              break
           done
 
       - name: Save AWS private key
