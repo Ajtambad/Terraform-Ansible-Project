@@ -5,9 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'Ansible_GA/**'
       - 'Terraform_GA/**'
-      - 'Website/**'
 
 jobs:
   build:
@@ -48,5 +46,13 @@ jobs:
       - name: Terraform apply
         id: apply
         run: terraform apply -auto-approve
+
+      - name: Trigger ansible workflow
+        id: trigger
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: ansible-pipeline.yml
+          repo: Ajtambad/Terraform-Ansible-Project
+          ref: main
 
   
