@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Checkout Ansible repo
         uses: actions/checkout@v2
-
+    
       - name: Install Ansible
         run: |
           sudo apt-get update
@@ -49,6 +49,9 @@ jobs:
 
       - name: Save AWS private key
         run: echo "${{ secrets.AWS_KEY_PAIR }}" > aws_key_pair.pem && chmod 600 aws_key_pair.pem
+
+      - name: Debug files
+        run: ls -lrth
 
       - name: Run ansible
         run: ansible-playbook -i hosts playbook.yaml -u ec2-user --private-key aws_key_pair.pem --ssh-extra-args="-o StrictHostKeyChecking=no"
