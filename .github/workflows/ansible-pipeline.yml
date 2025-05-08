@@ -39,7 +39,7 @@ jobs:
               exit 1
             fi
               echo -e "[webserver]\n$IP_ADDR\n" > hosts
-              sleep(5)
+              sleep 15
           done
 
       - name: Save AWS private key
