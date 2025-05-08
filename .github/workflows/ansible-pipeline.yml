@@ -41,8 +41,10 @@ jobs:
               echo "IP not found, retrying..."
               exit 1
             fi
-              echo -e "[webserver]\n$IP_ADDR" > hosts
+              echo -e "[webserver]\n$IP_ADDR\n" > hosts
+              echo "====HOSTS CONTENT===="
               cat hosts
+              echo "====END===="
           retry_on: error
 
       - name: Save AWS private key
