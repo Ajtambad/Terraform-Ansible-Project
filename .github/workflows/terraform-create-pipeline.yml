@@ -39,21 +39,13 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      # - name: Terraform Plan
-      #   id: plan
-      #   run: terraform plan 
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan 
 
-      # - name: Terraform apply
-      #   id: apply
-      #   run: terraform apply -auto-approve
-
-      # - name: Trigger ansible workflow
-      #   id: trigger
-      #   uses: benc-uk/workflow-dispatch@v1
-      #   with:
-      #     workflow: ansible-pipeline.yml
-      #     repo: Ajtambad/Terraform-Ansible-Project
-      #     ref: main
+      - name: Terraform apply
+        id: apply
+        run: terraform apply -auto-approve
 
       - name: Trigger ansible workflow
         id: trigger
