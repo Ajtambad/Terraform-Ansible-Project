@@ -1,11 +1,9 @@
 name: ansible-pipeline
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'Ansible_GA/**'
+  workflow_run:
+    workflows: ["terraform-create-pipeline.yml"]
+    types: 
+      - completed
 
 jobs:
   build:
