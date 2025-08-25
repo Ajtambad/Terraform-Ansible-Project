@@ -1,0 +1,31 @@
+name: terraform-destroy-pipeline
+on:
+  workflow_run:
+    types: 
+      - completed
+jobs:
+  build:
+    name: Run Terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Terraform_GA
+    steps:
+      - name: Check out Terraform repository
+        uses: actions/checkout@v2
+
+      - name: Configure AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Setup/Install Terraform
+        id: setup
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.2.0"
+
+      - name: Run Terraform destroy
+        run: terraform apply -destroy -auto-approve'

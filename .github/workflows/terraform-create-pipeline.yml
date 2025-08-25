@@ -34,7 +34,7 @@ jobs:
 
       - name: Initialize Terraform
         id: init
-        run: terraform init
+        run: terraform init -migrate-state -auto-approve
 
       - name: Terraform Validate
         id: validate

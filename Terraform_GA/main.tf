@@ -5,6 +5,11 @@ terraform {
             version = "~> 4.16"
         }
     }
+    backend "s3" {
+        bucket = "terraform-s3-state-amogh"
+        key = "/home/ec2-user/Terraform"
+        region = "us-east-1"
+    }
 
     required_version = ">= 1.2.0"
 }
