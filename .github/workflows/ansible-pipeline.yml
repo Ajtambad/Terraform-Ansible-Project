@@ -1,7 +1,8 @@
 name: ansible-pipeline
 on:
+  workflow_dispatch:
   workflow_run:
-    workflows: ["terraform-create-pipeline.yml"]
+    workflows: ["terraform-create-pipeline"]
     types: 
       - completed
 

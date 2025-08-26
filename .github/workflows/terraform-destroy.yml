@@ -1,6 +1,7 @@
 name: terraform-destroy-pipeline
 on:
   workflow_run:
+    workflows: ["ansible-pipeline.yml"]
     types: 
       - completed
 jobs:
